@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "806007291502",
+    "firebase_url": "https://studypushnotification-e3372.firebaseio.com",
+    "project_id": "studypushnotification-e3372",
+    "storage_bucket": "studypushnotification-e3372.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806007291502:android:e5e0cdf2e9c92af6",
+        "android_client_info": {
+          "package_name": "com.jankrav.studypushnotification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806007291502-pigbfqedcp2bsu6b9nr3u7er3f0np9hr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo1r1sHojYlc7ETT7gRtQSk80iwsd6WJA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
