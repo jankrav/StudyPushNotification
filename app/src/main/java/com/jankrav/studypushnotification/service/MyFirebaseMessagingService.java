@@ -8,19 +8,38 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.jankrav.studypushnotification.MainActivity;
 import com.jankrav.studypushnotification.R;
 
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        sendMyNotification(remoteMessage.getNotification().getBody());
+        String notificationTitle;
+        String notificationMessage;
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+
+        if (notification != null) {
+            notificationTitle = notification.getTitle();
+            notificationMessage = notification.getBody();
+            if (notificationTitle == null) {
+                notificationTitle = "SendPushNotification";
+            }
+
+            Log.d("NOTIFICATION MESSAGE: ", notificationMessage);
+            System.out.println("From: " + remoteMessage.getFrom() +
+                    "\tTime Pause: (milisec) " + (System.currentTimeMillis() - remoteMessage.getSentTime()));
+            sendMyNotification(notificationTitle, notificationMessage);
+        } else {
+            Log.d("Notification - null!", remoteMessage.toString());
+        }
     }
 
-    private void sendMyNotification(String message) {
+    private void sendMyNotification(String title, String message) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent =
@@ -29,9 +48,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri soundUri =
                 RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "StudyPushNotification_1")
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "BASE CHANNEL ID")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("My Firebase Push notification")
+                .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(soundUri)
@@ -40,6 +59,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager =
                 (NotificationManager)
                         getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notificationBuilder.build());
+        if (notificationManager != null) {
+            notificationManager.notify(0, notificationBuilder.build());
+        } else {
+            System.err.println("Notification manager is null!");
+        }
     }
 }
